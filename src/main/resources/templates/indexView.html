@@ -11,97 +11,51 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
     />
-    <link rel="stylesheet" href="style.css" />
+    <!-- <link rel="stylesheet" href="style.css" /> -->
   </head>
+
   <body>
-    <div class="principalContainer">
-      <h1>Elige tu película favorita</h1>
+    <div class="container mt-4">
+      <div class="card border-success" style="max-width: 300px">
+        <div class="card-header bg-success text-white">Info de países</div>
+        <div class="card-body">
+          <form th:action="@{/}" method="post" th:object="${formInfo}">
+            <div class="mb-3">
+              <label for="nombrePais" class="form-label"
+                >Selecciona un país</label
+              >
 
-      <form action="#" method="post" th:action="@{/}" th:object="${formInfo}">
-        <div class="formContainer">
-          <div class="container">
-            <input
-              type="radio"
-              id="peli1"
-              name="voto"
-              value="peli1"
-              th:field="*{voto}"
-            />
-            <label for="peli1">Película 1</label>
-            <img
-              src="images/gladiator.jpg"
-              alt="Gladiator"
-              style="width: 200px"
-            />
-            <i class="bi bi-heart"></i>
-            <span th:text="${votosFoto1}">0</span>
-            <br />
-          </div>
-          <div class="container">
-            <input
-              type="radio"
-              id="peli2"
-              name="voto"
-              value="peli2"
-              th:field="*{voto}"
-            />
-            <label for="peli1">Película 2</label>
-            <img src="images/matrix.jpg" alt="Matrix" style="width: 200px" />
-            <i class="bi bi-heart"></i>
-            <span th:text="${votosFoto2}">0</span>
-            <br />
-          </div>
-          <div class="container">
-            <input
-              type="radio"
-              id="peli3"
-              name="voto"
-              value="peli3"
-              th:field="*{voto}"
-            />
-            <label for="peli1">Película 3</label>
-            <img
-              src="images/pirates.jpg"
-              alt="Piratas del Caribe"
-              style="width: 200px"
-            />
-            <i class="bi bi-heart"></i>
-            <span th:text="${votosFoto3}">0</span>
-            <br />
-          </div>
+              <!-- <Select /> -->
+              <select
+                class="form-select"
+                id="nombrePais"
+                name="nombrePais"
+                onchange="this.form.submit()"
+              >
+                <option
+                  th:each="nombre : ${listaNombres}"
+                  th:value="${nombre}"
+                  th:text="${nombre}"
+                  th:selected="${formInfo.nombrePais == nombre}" 
+                >
+                <!-- <th:selected para que mantenga la seleccion /> -->
+                  Selecciona un país
+                </option>
+              </select>
+            </div>
+            <div class="mt-3">
+              <p>
+                <strong>Capital:</strong> <span th:text="${capital}"></span>
+              </p>
+              <p>
+                <strong>Población:</strong>
+                <span th:text="${poblacion}"></span>
+              </p>
+            </div>
+          </form>
+          <p th:if="${error}" th:text="${error}"></p>
         </div>
-        <!-- Mensaje de error -->
-        <span
-          th:if="${#fields.hasErrors('voto')}"
-          th:errors="*{voto}"
-          style="color: red"
-        ></span>
-
-        <div class="emailContainer">
-          <p>Introduce tu email para poder votar</p>
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" th:field="*{email}" />
-          <!-- Mensaje de error campo email vacío-->
-          <span
-            th:if="${#fields.hasErrors('email')}"
-            th:errors="*{email}"
-            style="color: red"
-          ></span>
-         
-          <!-- Mensaje de error email duplicado-->
-          <span th:if="${error}" class="error" style="color: red">
-            <p th:text="${error}"></p>
-          </span>
-        </div>
-        <div class="buttonContainer">
-          <!-- Botón enviar -->
-          <button type="submit">Votar</button>
-        </div>
-                  <!-- Mensaje voto registrado -->
-                  <span th:if="${votoOk}" style="color: rgb(17, 92, 10)">
-                    <p th:text="${votoOk}"></p>
-                  </span>
-      </form>
+      </div>
     </div>
   </body>
 </html>
